@@ -10,8 +10,9 @@ def get_path():
 class PostListEndpoint(Resource):
 
     def queryset_to_serialized_list(self, queryset):
+        print(queryset)
         serialized_list = [
-            item.to_dict() for item in queryset
+            item.to_dict(path=get_path()) for item in queryset
         ]
         return serialized_list
     
