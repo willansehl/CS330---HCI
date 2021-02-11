@@ -4,6 +4,14 @@ const getPosts = () => {
         .then(displayPosts);
 };
 
+const displayPosts = (data) => {
+    const entries = [];
+    for (const post of data) {
+        entries.push(toHTMLElement(post));
+    }
+    document.querySelector('#posts').innerHTML = entries.join('\n');
+};
+
 const toHTMLElement = (post) => {
     // formatting the date:
     const options = { 
@@ -26,14 +34,6 @@ const toHTMLElement = (post) => {
             </p>
         </section>
     `;
-};
-
-const displayPosts = (data) => {
-    const entries = [];
-    for (const post of data) {
-        entries.push(toHTMLElement(post));
-    }
-    document.querySelector('#posts').innerHTML = entries.join('\n');
 };
 
 getPosts();

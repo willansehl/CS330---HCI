@@ -2,19 +2,43 @@
 let activePost;
 
 // gets post from the server:
+const url = window.location.href;
+let id = url.substring(url.lastIndexOf('#') + 1);
+
 const getPost = () => {
     // get post id from url address:
-    const url = window.location.href;
-    id = url.substring(url.lastIndexOf('#') + 1);
 
     // fetch post:
     fetch('/api/posts/' + id + '/')
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            // console.log(data);
             activePost = data;
             renderPost();
         });
+};
+
+
+const getComments = () => {
+    fetch('/api/comments?post_id='+id)
+        .then(response => {
+            return response.json()
+        })
+        .then(displayComments);
+};
+
+const displayComments = (comments) => {
+    let theHTML = '';
+    console.log(comments);
+    for (const comment of comments) {
+        theHTML += `<section class="comment">
+            ${comment.comment} <br> 
+            ${comment.author}
+        </section>
+        `;
+        
+    }
+    document.querySelector('#comments').innerHTML = theHTML;
 };
 
 // updates the post:
@@ -24,7 +48,7 @@ const updatePost = (ev) => {
         content: document.querySelector('#content').value,
         author: document.querySelector('#author').value
     };
-    console.log(data);
+    // console.log(data);
     fetch('/api/posts/' + activePost.id + '/', { 
             method: 'PUT',
             headers: {
@@ -56,7 +80,7 @@ const deletePost = (ev) => {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
+        // console.log(data);
         // navigate back to main page:
         window.location.href = '/';
     });
@@ -138,6 +162,7 @@ const showConfirmation = () => {
 const initializePage = () => {
     // get the post from the server:
     getPost();
+    getComments();
     // add button event handler (right-hand corner:
     document.querySelector('#edit-button').onclick = renderForm;
     document.querySelector('#delete-button').onclick = deletePost;
