@@ -12,20 +12,13 @@ class CommentListEndpoint(Resource):
         ]
         return serialized_list
 
-    def getData(self):
+    def get(self):
         post_id = request.args.get('post_id')
         if post_id:
             # find data where *any of the fields contain the term...
-            data = models.Comment.objects.filter(
-                post = post_id 
-            )
+            data = models.Comment.objects(post_id=post_id)
         else:
             data = models.Comment.objects
-        return data
-
-    def get(self): # called when /api/comments 
-        # TODO: implement GET endpoint
-        data = self.getData()
         # formatting the output JSON
         data = self.queryset_to_serialized_list(data)
         return Response(json.dumps(data), mimetype="application/json", status=200)

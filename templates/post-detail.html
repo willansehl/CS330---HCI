@@ -17,7 +17,11 @@
 
             <!-- To view the post -->
             <div id="view-post">
-                <section class="post"></section>             
+                <section class="post"></section> 
+                <section class="comments"></section>  
+                <section>
+                    <button class="btn" id="add-comment-button">Add Comment</button>
+                </section>          
             </div>
 
             <!-- To edit the post -->
@@ -25,12 +29,7 @@
 
             <!-- TODO: Add the comments associated with this blog below: -->
             <div id="comments">
-                <!-- 
-                    1. Query the comments endpoint: /api/comments
-                    2. build an html representation of each comment
-                    3. inject those html nodes into this section 
-                        document.querySelector('#comments').innerHTML = "";
-                 -->
+                <form id="comment-form" class="hide"></form>
 
             </div>
 
